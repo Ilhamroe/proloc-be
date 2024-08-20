@@ -1,7 +1,7 @@
 package com.domain.models.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,20 +41,20 @@ public class Project implements Serializable{
     private String client;
 
     @Column(name = "tgl_mulai", nullable = false)
-    private LocalDate start;
+    private LocalDateTime start;
 
     @Column(name = "tgl_selesai", nullable = false)
-    private LocalDate end;
+    private LocalDateTime end;
 
     @Column(name = "pimpinan_proyek", nullable = false)
     private String leader;
 
     @Lob
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "text")
     private String keterangan;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    @Column(nullable = false, updatable = true, columnDefinition = "timestamp")
+    private Timestamp created_at;
 
     // Relasi
     @ManyToMany
@@ -74,13 +74,14 @@ public class Project implements Serializable{
     public Project() {}
 
     // Constructor with parameters
-    public Project(String name, String client, LocalDate start, LocalDate end, String leader, String keterangan, List<Location> lokasiList) {
+    public Project(String name, String client, LocalDateTime start, LocalDateTime end, String leader, String keterangan, Timestamp created_at, List<Location> lokasiList) {
         this.name = name;
         this.client = client;
         this.start = start;
         this.end = end;
         this.leader = leader;
         this.keterangan = keterangan;
+        this.created_at = created_at;
         this.lokasiList = lokasiList;
     }
 
@@ -109,19 +110,19 @@ public class Project implements Serializable{
     }
 
 
-    public LocalDate getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
@@ -141,11 +142,11 @@ public class Project implements Serializable{
         this.keterangan = keterangan;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 
@@ -159,11 +160,11 @@ public class Project implements Serializable{
     
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
+        created_at = new Timestamp(System.currentTimeMillis());
     }
 
     @PreUpdate
     protected void onUpdate() {
-        created_at = LocalDateTime.now();
+        created_at = new Timestamp(System.currentTimeMillis());
     }
 }

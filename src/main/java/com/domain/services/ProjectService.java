@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.domain.models.entities.Location;
 import com.domain.models.entities.Project;
+import com.domain.models.repositories.LocationRepo;
 import com.domain.models.repositories.ProjectRepo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,9 @@ public class ProjectService {
     
     @Autowired
     private ProjectRepo projectRepo;
+
+    @Autowired
+    private LocationRepo locationRepo;
 
     // Find data by Id
     public Project findOne(Long id){

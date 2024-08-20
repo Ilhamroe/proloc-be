@@ -1,6 +1,9 @@
 package com.domain.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,10 +16,12 @@ public class ProjectDto {
     private String client;
 
     @NotNull(message = "tgl_mulai is required")
-    private LocalDate start;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime start;
 
     @NotNull(message = "tgl_selesai is required")
-    private LocalDate end;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime end;
 
     @NotEmpty(message = "pimpinan_proyek is required")
     private String leader;
@@ -40,19 +45,19 @@ public class ProjectDto {
         this.client = client;
     }
 
-    public LocalDate getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 

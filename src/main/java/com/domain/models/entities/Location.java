@@ -1,7 +1,7 @@
 package com.domain.models.entities;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -44,8 +44,8 @@ public class Location implements Serializable{
     @Column(nullable = false)
     private String kota;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    @Column(nullable = false, updatable = true, columnDefinition = "timestamp")
+    private Timestamp created_at;
 
     // Relasi
     @ManyToMany(mappedBy = "lokasiList")
@@ -60,11 +60,12 @@ public class Location implements Serializable{
     public Location() {}
 
     // Constructor with parameters
-    public Location(String name, String negara, String provinsi, String kota, List<Project> proyekList) {
+    public Location(String name, String negara, String provinsi, String kota, Timestamp created_at, List<Project> proyekList) {
         this.name = name;
         this.negara = negara;
         this.provinsi = provinsi;
         this.kota = kota;
+        this.created_at = created_at;
         this.proyekList = proyekList;
     }
 
@@ -108,11 +109,11 @@ public class Location implements Serializable{
         this.kota = kota;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 
@@ -126,12 +127,12 @@ public class Location implements Serializable{
 
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
+        created_at = new Timestamp(System.currentTimeMillis());
     }
 
     @PreUpdate
     protected void onUpdate() {
-        created_at = LocalDateTime.now();
+        created_at = new Timestamp(System.currentTimeMillis());
     }
           
 }

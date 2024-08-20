@@ -94,6 +94,7 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseData);
     }
 
+    // Delete Data by Id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> removeOne(@PathVariable("id") Long id) {
         LocationService.removeOne(id);

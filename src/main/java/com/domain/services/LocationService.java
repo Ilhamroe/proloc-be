@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.domain.models.entities.Location;
+import com.domain.models.entities.Project;
 import com.domain.models.repositories.LocationRepo;
 
 import jakarta.transaction.Transactional;
@@ -44,10 +45,20 @@ public class LocationService {
     // DELETE data
     public void removeOne(Long id) {
         if (locationRepo.existsById(id)) {
+            removeRelation(id);
             locationRepo.deleteById(id);
         } else {
             throw new RuntimeException("Project not found");
         }
+    }
+
+    // Delete relasi data
+    public void removeRelation(Long id){
+        Location location = findOne(id);
+        for (Project project : location.getProyekList()) {
+            project.getLokasiList().remove(location);
+        }
+        locationRepo.save(location);
     }
 
     // SEARCH data by nama_lokasi
